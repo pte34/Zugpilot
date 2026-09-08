@@ -7,9 +7,12 @@ interface Props {
   onSelect: (destination: Destination) => void
   onAdd: (name: string, from: string, to: string) => void
   onRemove: (id: string) => void
+  /** Gesetzt, wenn per Supabase eingeloggt (Anzeige "Synchronisiert als ..."). */
+  email?: string | null
+  onSignOut?: () => void
 }
 
-export function DestinationList({ destinations, onSelect, onAdd, onRemove }: Props) {
+export function DestinationList({ destinations, onSelect, onAdd, onRemove, email, onSignOut }: Props) {
   const [formOpen, setFormOpen] = useState(false)
 
   function handleAdd(name: string, from: string, to: string) {
@@ -22,6 +25,14 @@ export function DestinationList({ destinations, onSelect, onAdd, onRemove }: Pro
       <header className="view__header">
         <h1 className="view__title">ZugPilot</h1>
         <span className="view__subtitle">Deine Verbindungen auf einen Blick</span>
+        {email && (
+          <span className="view__sync">
+            Synchronisiert als {email} &middot;{' '}
+            <button type="button" className="link-button" onClick={onSignOut}>
+              Abmelden
+            </button>
+          </span>
+        )}
       </header>
 
       {destinations.length === 0 && !formOpen && (

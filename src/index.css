@@ -72,6 +72,21 @@ body {
   font-size: 0.9rem;
 }
 
+.view__sync {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.link-button {
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0;
+  cursor: pointer;
+}
+
 .hint {
   color: var(--color-muted);
   font-size: 0.95rem;

@@ -79,20 +79,78 @@ Losgehen genutzt wird. Hell-/Dunkelmodus wird automatisch ueber
 ```
 src/
   api/           API-Client fuer transport.opendata.ch
-  components/    UI-Bausteine (Liste, Formular, Verbindungs-Karte, ...)
-  hooks/         React-Hooks fuer Destinationen, Historie, Verbindungs-Abruf
+  components/    UI-Bausteine (Liste, Formular, Verbindungs-Karte, Login, ...)
+  hooks/         React-Hooks fuer Auth, Destinationen, Historie, Verbindungs-Abruf
   learning/      Die Lernlogik (reine Funktion, keine Abhaengigkeiten)
-  storage/       localStorage-Zugriff
+  lib/           Supabase-Client (optional, siehe unten)
+  storage/       localStorage-Zugriff + Supabase-Zugriff
   utils/         Datums-/Zeit-Hilfsfunktionen
   types.ts       Gemeinsame TypeScript-Typen
 scripts/
   generate-icons.mjs   Erzeugt die PWA-Icons als PNG (ohne externe Libs)
+supabase/
+  schema.sql     Tabellen + Row-Level-Security fuer die optionale Sync
+.github/workflows/
+  deploy.yml     Baut die App und deployed sie auf GitHub Pages
 ```
+
+## Kostenlos hosten: GitHub Pages
+
+Der Workflow `.github/workflows/deploy.yml` baut die App bei jedem Push auf
+`main` automatisch und veroeffentlicht sie auf GitHub Pages - kostenlos,
+ohne externes Konto, direkt aus diesem Repo.
+
+Einmalig einrichten:
+
+1. Im Repo unter **Settings -> Pages** bei "Source" **"GitHub Actions"** auswaehlen.
+2. Falls Supabase genutzt wird (siehe unten): unter **Settings -> Secrets
+   and variables -> Actions** die beiden Secrets `VITE_SUPABASE_URL` und
+   `VITE_SUPABASE_ANON_KEY` anlegen. Ohne diese Secrets baut die App
+   trotzdem, laeuft dann aber im rein lokalen Modus (localStorage).
+3. Push auf `main` - die App erscheint danach unter
+   `https://<username>.github.io/Zugpilot/`.
+
+`vite.config.ts` setzt den Pfad (`base`) automatisch passend: lokal `/`,
+im GitHub-Actions-Build (`GH_PAGES=true`) `/Zugpilot/`.
+
+Alternativen ohne eigene Config-Anpassung: **Vercel** oder **Netlify** -
+einfach das GitHub-Repo verbinden, beide erkennen Vite/vite-plugin-pwa
+automatisch und deployen an die eigene Domain-Wurzel.
+
+## Optional: Supabase-Sync
+
+Standardmaessig speichert ZugPilot alles nur lokal im Browser (siehe oben).
+Wer die Destinationen und die Lern-Historie **geraeteuebergreifend**
+synchronisieren will (z. B. Handy + Laptop), kann optional Supabase
+anschliessen - ohne Supabase-Konfiguration aendert sich am Verhalten der
+App nichts.
+
+1. Kostenloses Projekt auf [supabase.com](https://supabase.com) anlegen.
+2. Im Supabase-Dashboard unter **SQL Editor** den Inhalt von
+   `supabase/schema.sql` ausfuehren (legt die Tabellen `destinations` und
+   `history_entries` inkl. Row-Level-Security an - jede:r sieht nur die
+   eigenen Daten).
+3. Unter **Project Settings -> API** die **Project URL** und den
+   **anon public key** kopieren.
+4. Lokal: `.env.example` nach `.env.local` kopieren und beide Werte
+   eintragen. Fuer den GitHub-Pages-Deploy: dieselben Werte als Repository
+   Secrets `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` hinterlegen
+   (siehe oben).
+5. Im Supabase-Dashboard unter **Authentication -> Providers** ist "Email"
+   standardmaessig aktiv - das reicht fuer den eingebauten Login per
+   Magic-Link (kein Passwort noetig).
+
+Sobald beide Umgebungsvariablen gesetzt sind, zeigt die App vor der
+Destinations-Liste einen Login (E-Mail eingeben, Link antippen) und
+speichert danach alles in Supabase statt in localStorage
+(`src/hooks/useAuth.ts`, `src/storage/supabaseStore.ts`).
 
 ## Was als Naechstes sinnvoll waere
 
 - Mehrere Zeitfenster pro Destination (z. B. "Hinweg" und "Rueckweg"
   getrennt lernen).
 - Auto-Refresh der Verbindungsliste alle 60 Sekunden fuer Echtzeit-Delays.
-- Export/Import der lokalen Daten (JSON-Datei), falls das Handy gewechselt wird.
-- Umstellung auf IndexedDB, falls die Historie sehr gross wird.
+- Realtime-Abgleich zwischen Geraeten (Supabase Realtime), statt nur beim
+  Oeffnen der App neu zu laden.
+- Umstellung auf IndexedDB als lokalen Cache, falls die App auch offline
+  mit Supabase-Daten arbeiten soll.
