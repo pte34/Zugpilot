@@ -14,9 +14,9 @@ export function formatWeekdayTime(date: Date): string {
   return `${WEEKDAY_NAMES[date.getDay()]}, ${date.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })} Uhr`
 }
 
-/** Parst die ISO-Dauer der API ("00d00:48m") in ein lesbares "48 Min." / "1 Std. 20 Min." */
+/** Parst die Dauer der API ("00d00:20:00" = Tage/Std./Min./Sek.) in ein lesbares "20 Min." / "1 Std. 20 Min." */
 export function formatDuration(apiDuration: string): string {
-  const match = /(\d+)d(\d+):(\d+)m/.exec(apiDuration)
+  const match = /^(\d+)d(\d{2}):(\d{2}):(\d{2})$/.exec(apiDuration)
   if (!match) return apiDuration
   const days = Number(match[1])
   const hours = Number(match[2]) + days * 24
