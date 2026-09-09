@@ -1,5 +1,6 @@
 import type { ApiConnection, ApiStop } from '../types'
 import { formatDuration, formatTime } from '../utils/date'
+import { TransferBadge } from './TransferBadge'
 
 interface Props {
   connection: ApiConnection
@@ -38,33 +39,34 @@ export function ConnectionCard({ connection, highlighted, onSelect }: Props) {
   return (
     <article className={`connection-card${highlighted ? ' connection-card--highlighted' : ''}`}>
       {highlighted && <div className="connection-card__badge">Fuer dich empfohlen</div>}
-      <div className="connection-card__times">
-        <div className="connection-card__time-block">
-          <span className="connection-card__time">{formatTime(connection.from.departure)}</span>
-          {delay !== null && delay > 0 && <span className="connection-card__delay">+{delay} Min.</span>}
-          {departure.platform && (
-            <span className={`connection-card__platform${departure.changed ? ' connection-card__platform--changed' : ''}`}>
-              Gleis {departure.platform}
-            </span>
-          )}
+      <div className="connection-card__header">
+        <div className="connection-card__times">
+          <div className="connection-card__time-block">
+            <span className="connection-card__time">{formatTime(connection.from.departure)}</span>
+            {delay !== null && delay > 0 && <span className="connection-card__delay">+{delay} Min.</span>}
+            {departure.platform && (
+              <span className={`connection-card__platform${departure.changed ? ' connection-card__platform--changed' : ''}`}>
+                Gleis {departure.platform}
+              </span>
+            )}
+          </div>
+          <span className="connection-card__arrow" aria-hidden="true">
+            &rarr;
+          </span>
+          <div className="connection-card__time-block">
+            <span className="connection-card__time">{formatTime(connection.to.arrival)}</span>
+            {arrival.platform && (
+              <span className={`connection-card__platform${arrival.changed ? ' connection-card__platform--changed' : ''}`}>
+                Gleis {arrival.platform}
+              </span>
+            )}
+          </div>
         </div>
-        <span className="connection-card__arrow" aria-hidden="true">
-          &rarr;
-        </span>
-        <div className="connection-card__time-block">
-          <span className="connection-card__time">{formatTime(connection.to.arrival)}</span>
-          {arrival.platform && (
-            <span className={`connection-card__platform${arrival.changed ? ' connection-card__platform--changed' : ''}`}>
-              Gleis {arrival.platform}
-            </span>
-          )}
-        </div>
+        <TransferBadge transfers={connection.transfers} />
       </div>
 
       <div className="connection-card__meta">
         <span>{formatDuration(connection.duration)}</span>
-        <span>&middot;</span>
-        <span>{connection.transfers === 0 ? 'Direkt' : `${connection.transfers} Umstieg${connection.transfers > 1 ? 'e' : ''}`}</span>
         {badges.length > 0 && (
           <div className="connection-card__lines">
             {badges.map((label) => (

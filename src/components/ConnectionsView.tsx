@@ -44,11 +44,20 @@ export function ConnectionsView({ destination, history, onSelectConnection, onBa
 
       {confirmed && (
         <div className="banner banner--success">
-          Verbindung gespeichert. Beim naechsten Mal lernt ZugPilot daraus.
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: 2 }}>
+            <path d="M3 8.5 6.5 12 13 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <p>Verbindung gespeichert. Beim naechsten Mal lernt ZugPilot daraus.</p>
         </div>
       )}
 
-      {loading && <p className="hint">Verbindungen werden geladen…</p>}
+      {loading && (
+        <div className="skeleton-list">
+          <div className="skeleton-card" />
+          <div className="skeleton-card" />
+          <div className="skeleton-card" />
+        </div>
+      )}
 
       {error && !loading && (
         <div className="banner banner--error">

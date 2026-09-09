@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Destination } from '../types'
 import { DestinationForm } from './DestinationForm'
+import { Logo } from './Logo'
 
 interface Props {
   destinations: Destination[]
@@ -23,7 +24,10 @@ export function DestinationList({ destinations, onSelect, onAdd, onRemove, email
   return (
     <div className="view">
       <header className="view__header">
-        <h1 className="view__title">ZugPilot</h1>
+        <div className="view__brand">
+          <Logo />
+          <h1 className="view__title">ZugPilot</h1>
+        </div>
         <span className="view__subtitle">Deine Verbindungen auf einen Blick</span>
         {email && (
           <span className="view__sync">
@@ -43,9 +47,20 @@ export function DestinationList({ destinations, onSelect, onAdd, onRemove, email
         {destinations.map((destination) => (
           <li key={destination.id} className="destination-card">
             <button type="button" className="destination-card__main" onClick={() => onSelect(destination)}>
-              <span className="destination-card__name">{destination.name}</span>
-              <span className="destination-card__route">
-                {destination.from} &rarr; {destination.to}
+              <span className="destination-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <rect x="4" y="3" width="12" height="10" rx="4" stroke="currentColor" strokeWidth="1.6" />
+                  <rect x="7" y="6" width="2.5" height="3" rx="0.8" fill="currentColor" />
+                  <rect x="10.5" y="6" width="2.5" height="3" rx="0.8" fill="currentColor" />
+                  <circle cx="7.5" cy="16" r="1.4" fill="currentColor" />
+                  <circle cx="12.5" cy="16" r="1.4" fill="currentColor" />
+                </svg>
+              </span>
+              <span className="destination-card__text">
+                <span className="destination-card__name">{destination.name}</span>
+                <span className="destination-card__route">
+                  {destination.from} &rarr; {destination.to}
+                </span>
               </span>
             </button>
             <button

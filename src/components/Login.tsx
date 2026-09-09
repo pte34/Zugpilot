@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
+import { Logo } from './Logo'
 
 interface Props {
   onSubmit: (email: string) => Promise<string | null>
@@ -27,7 +28,10 @@ export function Login({ onSubmit }: Props) {
   return (
     <div className="view">
       <header className="view__header">
-        <h1 className="view__title">ZugPilot</h1>
+        <div className="view__brand">
+          <Logo />
+          <h1 className="view__title">ZugPilot</h1>
+        </div>
         <span className="view__subtitle">Anmelden, um deine Destinationen geraeteuebergreifend zu synchronisieren</span>
       </header>
 
