@@ -2,7 +2,12 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # main ist der eigentliche Trunk; claude/zugpilot-pwa-learning-c0i0mt ist
+    # (Stand jetzt) noch der Repo-Default-Branch, auf den die automatisch
+    # angelegte "github-pages"-Umgebung Deploys beschraenkt. Sobald der
+    # Default-Branch in den Repo-Einstellungen auf main umgestellt ist,
+    # kann der zweite Eintrag hier wieder raus.
+    branches: [main, claude/zugpilot-pwa-learning-c0i0mt]
   workflow_dispatch:
 
 permissions:
