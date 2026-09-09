@@ -527,6 +527,93 @@ input {
   width: 100%;
 }
 
+.connection-card__details-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 650;
+  padding: 0.2rem;
+  margin: -0.3rem 0;
+  cursor: pointer;
+}
+
+.connection-card__details-toggle svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  transition: transform 0.15s ease;
+}
+
+.route-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0.15rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px dashed var(--color-border);
+}
+
+.route-step {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.route-step:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.route-step__line {
+  flex-shrink: 0;
+  width: 3.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  padding-top: 0.1rem;
+}
+
+.route-step__line--walk {
+  color: var(--color-muted);
+}
+
+.route-step__stops {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.route-step__stop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.route-step__station {
+  font-size: 0.88rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.route-step__time {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .skeleton-list {
   display: flex;
   flex-direction: column;
