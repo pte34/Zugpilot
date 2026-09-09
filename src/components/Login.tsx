@@ -32,12 +32,12 @@ export function Login({ onSubmit }: Props) {
           <Logo />
           <h1 className="view__title">ZugPilot</h1>
         </div>
-        <span className="view__subtitle">Anmelden, um deine Destinationen geraeteuebergreifend zu synchronisieren</span>
+        <span className="view__subtitle">Anmelden, um deine Destinationen geräteübergreifend zu synchronisieren</span>
       </header>
 
       {status === 'sent' ? (
         <div className="banner banner--success">
-          Link verschickt an {email}. E-Mail oeffnen und auf den Link tippen, um dich anzumelden.
+          Link verschickt an {email}. E-Mail öffnen und auf den Link tippen, um dich anzumelden.
         </div>
       ) : (
         <form className="destination-form" onSubmit={handleSubmit}>

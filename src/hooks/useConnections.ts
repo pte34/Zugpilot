@@ -6,7 +6,7 @@ interface State {
   connections: ApiConnection[]
   loading: boolean
   error: string | null
-  /** Zeitpunkt des (letzten erfolgreichen) Abrufs - Basis fuer die Lernlogik. */
+  /** Zeitpunkt des (letzten erfolgreichen) Abrufs - Basis für die Lernlogik. */
   openedAt: Date | null
 }
 

@@ -35,7 +35,7 @@ export function ConnectionsView({ destination, history, onSelectConnection, onBa
     <div className="view">
       <header className="view__header">
         <button type="button" className="button button--ghost" onClick={onBack}>
-          &larr; Zurueck
+          &larr; Zurück
         </button>
         <h1 className="view__title">{destination.name}</h1>
         <span className="view__subtitle">
@@ -51,12 +51,12 @@ export function ConnectionsView({ destination, history, onSelectConnection, onBa
             </svg>
             <p>
               Gespeichert: {destination.from} {formatTime(confirmedConnection.from.departure)} &rarr; {destination.to}{' '}
-              {formatTime(confirmedConnection.to.arrival)}. Beim naechsten Mal lernt ZugPilot daraus.
+              {formatTime(confirmedConnection.to.arrival)}. Beim nächsten Mal lernt ZugPilot daraus.
             </p>
           </div>
           <ConnectionCard connection={confirmedConnection} defaultExpanded hideSelect onSelect={() => {}} />
           <button type="button" className="button button--secondary" onClick={() => setConfirmedConnection(null)}>
-            Andere Verbindung waehlen
+            Andere Verbindung wählen
           </button>
         </>
       ) : (

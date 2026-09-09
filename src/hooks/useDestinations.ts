@@ -4,8 +4,8 @@ import { deleteDestinationRemote, fetchDestinationsRemote, insertDestinationRemo
 import type { Destination } from '../types'
 
 /**
- * userId === null -> rein lokal (localStorage), sofort verfuegbar.
- * userId gesetzt   -> Supabase-Sync fuer die eingeloggte Person.
+ * userId === null -> rein lokal (localStorage), sofort verfügbar.
+ * userId gesetzt   -> Supabase-Sync für die eingeloggte Person.
  */
 export function useDestinations(userId: string | null) {
   const [destinations, setDestinations] = useState<Destination[]>(() => (userId ? [] : loadDestinations()))
@@ -64,7 +64,7 @@ export function useDestinations(userId: string | null) {
       try {
         await deleteDestinationRemote(id)
       } catch {
-        setError('Destination konnte nicht geloescht werden.')
+        setError('Destination konnte nicht gelöscht werden.')
         setDestinations(previous)
       }
     },

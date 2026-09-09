@@ -40,7 +40,7 @@ export function DestinationList({ destinations, onSelect, onAdd, onRemove, email
       </header>
 
       {destinations.length === 0 && !formOpen && (
-        <p className="hint">Noch keine Destination angelegt. Leg deine erste Strecke an, z. B. "Zuhause -&gt; Buero".</p>
+        <p className="hint">Noch keine Destination angelegt. Leg deine erste Strecke an, z. B. "Zuhause → Büro".</p>
       )}
 
       <ul className="destination-list">
@@ -66,7 +66,7 @@ export function DestinationList({ destinations, onSelect, onAdd, onRemove, email
             <button
               type="button"
               className="destination-card__remove"
-              aria-label={`${destination.name} loeschen`}
+              aria-label={`${destination.name} löschen`}
               onClick={() => onRemove(destination.id)}
             >
               &times;

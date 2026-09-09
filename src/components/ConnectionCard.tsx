@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNow } from '../hooks/useNow'
+import { getLiveStatus } from '../learning/liveStatus'
 import type { ApiConnection, ApiSection, ApiStop } from '../types'
 import { formatDuration, formatTime } from '../utils/date'
 import { TransferBadge } from './TransferBadge'
@@ -7,9 +9,9 @@ interface Props {
   connection: ApiConnection
   highlighted?: boolean
   onSelect: () => void
-  /** Direkt aufgeklappt anzeigen, z. B. fuer die gerade bestaetigte Verbindung. */
+  /** Direkt aufgeklappt anzeigen, z. B. für die gerade bestätigte Verbindung. */
   defaultExpanded?: boolean
-  /** Fuer die Bestaetigungs-Ansicht: "Diese nehme ich" ist dann nicht mehr sinnvoll. */
+  /** Für die Bestätigungs-Ansicht: "Diese nehme ich" ist dann nicht mehr sinnvoll. */
   hideSelect?: boolean
 }
 
@@ -37,7 +39,7 @@ function lineBadges(connection: ApiConnection): string[] {
   return Array.from(new Set(labels))
 }
 
-/** Nur Etappen mit eigener Station/Zeit sind fuer die Routen-Anzeige relevant. */
+/** Nur Etappen mit eigener Station/Zeit sind für die Routen-Anzeige relevant. */
 function relevantSections(connection: ApiConnection): ApiSection[] {
   return connection.sections.filter((section) => section.departure.station.name && section.arrival.station.name)
 }
@@ -49,10 +51,12 @@ export function ConnectionCard({ connection, highlighted, onSelect, defaultExpan
   const delay = connection.from.delay
   const badges = lineBadges(connection)
   const steps = relevantSections(connection)
+  const now = useNow()
+  const liveStatus = getLiveStatus(steps, now)
 
   return (
     <article className={`connection-card${highlighted ? ' connection-card--highlighted' : ''}`}>
-      {highlighted && <div className="connection-card__badge">Fuer dich empfohlen</div>}
+      {highlighted && <div className="connection-card__badge">Für dich empfohlen</div>}
       <div className="connection-card__header">
         <div className="connection-card__times">
           <div className="connection-card__time-block">
@@ -78,6 +82,26 @@ export function ConnectionCard({ connection, highlighted, onSelect, defaultExpan
         </div>
         <TransferBadge transfers={connection.transfers} />
       </div>
+
+      {liveStatus.kind === 'in-transit' && (
+        <div className="live-status">
+          <span className="live-status__dot" aria-hidden="true" />
+          <div className="live-status__body">
+            <span className="live-status__label">
+              Unterwegs &middot; {liveStatus.step.departure.station.name} &rarr; {liveStatus.step.arrival.station.name}
+            </span>
+            <div className="live-status__track">
+              <div className="live-status__fill" style={{ width: `${liveStatus.percent}%` }} />
+            </div>
+          </div>
+        </div>
+      )}
+      {liveStatus.kind === 'waiting' && (
+        <div className="live-status live-status--waiting">
+          <span className="live-status__dot" aria-hidden="true" />
+          <span className="live-status__label">Umsteigen in {liveStatus.stationName}</span>
+        </div>
+      )}
 
       <div className="connection-card__meta">
         <span>{formatDuration(connection.duration)}</span>
@@ -117,8 +141,9 @@ export function ConnectionCard({ connection, highlighted, onSelect, defaultExpan
             const stepDeparture = effectivePlatform(section.departure)
             const stepArrival = effectivePlatform(section.arrival)
             const isWalk = !section.journey
+            const isActive = liveStatus.kind === 'in-transit' && liveStatus.step === section
             return (
-              <li key={index} className="route-step">
+              <li key={index} className={`route-step${isActive ? ' route-step--active' : ''}`}>
                 <div className={`route-step__line${isWalk ? ' route-step__line--walk' : ''}`}>{lineLabel(section)}</div>
                 <div className="route-step__stops">
                   <div className="route-step__stop">

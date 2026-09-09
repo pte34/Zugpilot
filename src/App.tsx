@@ -15,8 +15,8 @@ export default function App() {
   const { history, logSelection } = useHistory(userId)
   const [selected, setSelected] = useState<Destination | null>(null)
 
-  // Nur relevant, wenn Supabase ueberhaupt konfiguriert ist (siehe
-  // src/lib/supabaseClient.ts) - sonst laeuft die App direkt rein lokal.
+  // Nur relevant, wenn Supabase überhaupt konfiguriert ist (siehe
+  // src/lib/supabaseClient.ts) - sonst läuft die App direkt rein lokal.
   if (isConfigured && authLoading) {
     return (
       <div className="view">

@@ -1,8 +1,8 @@
 import type { Destination, HistoryEntry } from '../types'
 
 // Alle App-Daten leben ausschliesslich im localStorage des Browsers -
-// es gibt keinen Server und keine Konten. "Loeschen der Browserdaten"
-// loescht damit auch ZugPilot-Daten; das ist fuer das MVP bewusst so.
+// es gibt keinen Server und keine Konten. "Löschen der Browserdaten"
+// löscht damit auch ZugPilot-Daten; das ist für das MVP bewusst so.
 const DESTINATIONS_KEY = 'zugpilot.destinations.v1'
 const HISTORY_KEY = 'zugpilot.history.v1'
 
@@ -22,8 +22,8 @@ function writeJson<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value))
   } catch {
     // z. B. Speicher voll oder Storage im Privatmodus deaktiviert.
-    // Fuer das MVP genuegt es, den Fehler stillschweigend zu ignorieren,
-    // die Aenderung bleibt dann nur fuer die laufende Sitzung im UI sichtbar.
+    // Für das MVP genügt es, den Fehler stillschweigend zu ignorieren,
+    // die Änderung bleibt dann nur für die laufende Sitzung im UI sichtbar.
   }
 }
 

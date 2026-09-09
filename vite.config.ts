@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // GitHub Pages serviert das Repo unter /Zugpilot/ statt an der Domain-Wurzel.
-// Der GitHub-Actions-Workflow setzt GH_PAGES=true nur fuer den Deploy-Build;
+// Der GitHub-Actions-Workflow setzt GH_PAGES=true nur für den Deploy-Build;
 // lokal (npm run dev / npm run build) bleibt die App an der Wurzel "/".
 const base = process.env.GH_PAGES ? '/Zugpilot/' : '/'
 
@@ -14,6 +14,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // Wir registrieren den Service Worker selbst (main.tsx), damit wir
+      // regelmässig aktiv auf Updates prüfen können - sonst bemerkt eine
+      // schon offene PWA neue Deploys erst beim nächsten Kaltstart.
+      injectRegister: false,
       includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png'],
       manifest: {
         name: 'ZugPilot',
