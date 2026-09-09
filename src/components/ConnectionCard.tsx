@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNow } from '../hooks/useNow'
 import { getLiveStatus } from '../learning/liveStatus'
 import type { ApiConnection, ApiSection, ApiStop } from '../types'
-import { formatDuration, formatTime } from '../utils/date'
+import { formatDuration, formatMinutes, formatTime } from '../utils/date'
 import { TransferBadge } from './TransferBadge'
 
 interface Props {
@@ -89,6 +89,7 @@ export function ConnectionCard({ connection, highlighted, onSelect, defaultExpan
           <div className="live-status__body">
             <span className="live-status__label">
               Unterwegs &middot; {liveStatus.step.departure.station.name} &rarr; {liveStatus.step.arrival.station.name}
+              <span className="live-status__time"> &middot; noch {formatMinutes(liveStatus.remainingMinutes)}</span>
             </span>
             <div className="live-status__track">
               <div className="live-status__fill" style={{ width: `${liveStatus.percent}%` }} />
@@ -99,7 +100,9 @@ export function ConnectionCard({ connection, highlighted, onSelect, defaultExpan
       {liveStatus.kind === 'waiting' && (
         <div className="live-status live-status--waiting">
           <span className="live-status__dot" aria-hidden="true" />
-          <span className="live-status__label">Umsteigen in {liveStatus.stationName}</span>
+          <span className="live-status__label">
+            Umsteigen in {liveStatus.stationName} &middot; Anschluss in {formatMinutes(liveStatus.waitMinutes)}
+          </span>
         </div>
       )}
 

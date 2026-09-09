@@ -2,8 +2,8 @@ import type { ApiSection, ApiStop } from '../types'
 
 export type LiveStatus =
   | { kind: 'not-started' }
-  | { kind: 'in-transit'; step: ApiSection; percent: number }
-  | { kind: 'waiting'; stationName: string; nextStep: ApiSection }
+  | { kind: 'in-transit'; step: ApiSection; percent: number; remainingMinutes: number }
+  | { kind: 'waiting'; stationName: string; nextStep: ApiSection; waitMinutes: number }
   | { kind: 'arrived' }
 
 /**
@@ -36,14 +36,16 @@ export function getLiveStatus(steps: ApiSection[], now: Date): LiveStatus {
     if (now >= dep && now <= arr) {
       const totalMs = arr.getTime() - dep.getTime()
       const percent = totalMs > 0 ? Math.min(100, Math.max(0, ((now.getTime() - dep.getTime()) / totalMs) * 100)) : 100
-      return { kind: 'in-transit', step, percent }
+      const remainingMinutes = Math.max(0, (arr.getTime() - now.getTime()) / 60_000)
+      return { kind: 'in-transit', step, percent, remainingMinutes }
     }
 
     const nextStep = steps[i + 1]
     if (nextStep && now > arr) {
       const nextDep = effectiveTime(nextStep.departure, 'departure')
       if (nextDep && now < nextDep) {
-        return { kind: 'waiting', stationName: step.arrival.station.name ?? '', nextStep }
+        const waitMinutes = Math.max(0, (nextDep.getTime() - now.getTime()) / 60_000)
+        return { kind: 'waiting', stationName: step.arrival.station.name ?? '', nextStep, waitMinutes }
       }
     }
   }

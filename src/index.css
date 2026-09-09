@@ -673,9 +673,7 @@ input {
   font-size: 0.8rem;
   font-weight: 650;
   color: var(--color-success-text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.35;
 }
 
 .live-status--waiting .live-status__label {
