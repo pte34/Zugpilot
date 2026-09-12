@@ -1,24 +1,24 @@
 import type { ApiConnection, HistoryEntry } from '../types'
 import { minuteOfDay } from '../utils/date'
 
-/** Wie nah (in Minuten) die aktuelle Uhrzeit an einer vergangenen Anfrage liegen muss, damit sie zaehlt. */
+/** Wie nah (in Minuten) die aktuelle Uhrzeit an einer vergangenen Anfrage liegen muss, damit sie zählt. */
 const TIME_WINDOW_MINUTES = 90
-/** Ab wie vielen passenden Vergangenheits-Eintraegen wir uns trauen, eine Empfehlung abzugeben. */
+/** Ab wie vielen passenden Vergangenheits-Einträgen wir uns trauen, eine Empfehlung abzugeben. */
 const MIN_SAMPLES = 2
 
 export interface Suggestion {
   connection: ApiConnection
-  /** Anzahl Vergangenheits-Eintraege, auf denen die Empfehlung basiert. */
+  /** Anzahl Vergangenheits-Einträge, auf denen die Empfehlung basiert. */
   sampleSize: number
 }
 
 /**
- * Lernlogik des MVP: Schaut sich vergangene Auswahlen fuer denselben Wochentag
- * und eine aehnliche Tageszeit an ("montags um diese Zeit") und berechnet den
- * durchschnittlichen zeitlichen Abstand zwischen Oeffnen der App und der dann
- * gewaehlten Abfahrt. Dieser Abstand wird auf die aktuelle Zeit angewendet,
+ * Lernlogik des MVP: Schaut sich vergangene Auswahlen für denselben Wochentag
+ * und eine ähnliche Tageszeit an ("montags um diese Zeit") und berechnet den
+ * durchschnittlichen zeitlichen Abstand zwischen Öffnen der App und der dann
+ * gewählten Abfahrt. Dieser Abstand wird auf die aktuelle Zeit angewendet,
  * um unter den frisch geladenen Verbindungen diejenige zu finden, die dem
- * bisherigen Verhalten am naechsten kommt.
+ * bisherigen Verhalten am nächsten kommt.
  */
 export function suggestConnection(
   connections: ApiConnection[],

@@ -4,7 +4,7 @@ interface Props {
 
 /**
  * Die zentrale Antwort auf "wie viele Umstiege, auf einen Blick" - deshalb
- * farblich codiert (gruen/blau/orange) und mit eigenem Icon, statt nur als
+ * farblich codiert (grün/blau/orange) und mit eigenem Icon, statt nur als
  * Text in der Meta-Zeile versteckt zu sein.
  */
 export function TransferBadge({ transfers }: Props) {

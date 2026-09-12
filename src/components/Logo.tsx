@@ -2,7 +2,7 @@ interface Props {
   size?: number
 }
 
-/** Gleiches Motiv wie das App-Icon (public/icons) - fuer Wiedererkennung im Header. */
+/** Gleiches Motiv wie das App-Icon (public/icons) - für Wiedererkennung im Header. */
 export function Logo({ size = 28 }: Props) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">

@@ -5,8 +5,8 @@ import { minuteOfDay } from '../utils/date'
 import type { ApiConnection, HistoryEntry } from '../types'
 
 /**
- * userId === null -> rein lokal (localStorage), sofort verfuegbar.
- * userId gesetzt   -> Supabase-Sync fuer die eingeloggte Person.
+ * userId === null -> rein lokal (localStorage), sofort verfügbar.
+ * userId gesetzt   -> Supabase-Sync für die eingeloggte Person.
  */
 export function useHistory(userId: string | null) {
   const [history, setHistory] = useState<HistoryEntry[]>(() => (userId ? [] : loadHistory()))
@@ -19,7 +19,7 @@ export function useHistory(userId: string | null) {
     fetchHistoryRemote()
       .then(setHistory)
       .catch(() => {
-        // Kein Blocker fuer die restliche App: ohne Historie gibt es
+        // Kein Blocker für die restliche App: ohne Historie gibt es
         // einfach (noch) keine Empfehlung, die Verbindungsliste bleibt nutzbar.
       })
   }, [userId])
@@ -53,7 +53,7 @@ export function useHistory(userId: string | null) {
       } catch {
         // Auswahl konnte nicht synchronisiert werden - die Lernlogik lernt
         // dann aus diesem einen Tap halt (noch) nicht, die Wahl selbst
-        // (Umsteigen in den Zug) ist davon natuerlich nicht betroffen.
+        // (Umsteigen in den Zug) ist davon natürlich nicht betroffen.
       }
     },
     [userId],

@@ -14,7 +14,7 @@ export class TransportApiError extends Error {
 }
 
 /**
- * Ruft die naechsten Verbindungen fuer eine Strecke ab.
+ * Ruft die nächsten Verbindungen für eine Strecke ab.
  * Wirft TransportApiError mit einer nutzerfreundlichen deutschen Meldung,
  * die direkt in der UI angezeigt werden kann.
  */
@@ -26,14 +26,14 @@ export async function fetchConnections(from: string, to: string, limit = 6): Pro
     response = await fetch(url)
   } catch {
     throw new TransportApiError(
-      'Keine Verbindung zum Server. Bitte pruefe deine Internetverbindung.',
+      'Keine Verbindung zum Server. Bitte prüfe deine Internetverbindung.',
       true,
     )
   }
 
   if (!response.ok) {
     throw new TransportApiError(
-      `Der Fahrplan-Dienst antwortet gerade nicht (Fehler ${response.status}). Versuch es spaeter noch einmal.`,
+      `Der Fahrplan-Dienst antwortet gerade nicht (Fehler ${response.status}). Versuch es später noch einmal.`,
       false,
     )
   }
@@ -46,7 +46,7 @@ export async function fetchConnections(from: string, to: string, limit = 6): Pro
   }
 
   if (!data.connections || data.connections.length === 0) {
-    throw new TransportApiError('Fuer diese Strecke wurden keine Verbindungen gefunden.', false)
+    throw new TransportApiError('Für diese Strecke wurden keine Verbindungen gefunden.', false)
   }
 
   return data.connections

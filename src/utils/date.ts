@@ -14,14 +14,22 @@ export function formatWeekdayTime(date: Date): string {
   return `${WEEKDAY_NAMES[date.getDay()]}, ${date.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })} Uhr`
 }
 
-/** Parst die ISO-Dauer der API ("00d00:48m") in ein lesbares "48 Min." / "1 Std. 20 Min." */
+/** "20 Min." / "1 Std." / "1 Std. 20 Min." aus einer Gesamtminutenzahl. */
+export function formatMinutes(totalMinutes: number): string {
+  const minutes = Math.max(0, Math.round(totalMinutes))
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+  if (hours === 0) return `${mins} Min.`
+  if (mins === 0) return `${hours} Std.`
+  return `${hours} Std. ${mins} Min.`
+}
+
+/** Parst die Dauer der API ("00d00:20:00" = Tage/Std./Min./Sek.) in ein lesbares "20 Min." / "1 Std. 20 Min." */
 export function formatDuration(apiDuration: string): string {
-  const match = /(\d+)d(\d+):(\d+)m/.exec(apiDuration)
+  const match = /^(\d+)d(\d{2}):(\d{2}):(\d{2})$/.exec(apiDuration)
   if (!match) return apiDuration
   const days = Number(match[1])
   const hours = Number(match[2]) + days * 24
   const minutes = Number(match[3])
-  if (hours === 0) return `${minutes} Min.`
-  if (minutes === 0) return `${hours} Std.`
-  return `${hours} Std. ${minutes} Min.`
+  return formatMinutes(hours * 60 + minutes)
 }

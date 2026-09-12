@@ -1,4 +1,4 @@
-// Eine vom Nutzer angelegte Strecke, z. B. "Zuhause -> Buero".
+// Eine vom Nutzer angelegte Strecke, z. B. "Zuhause → Büro".
 export interface Destination {
   id: string
   name: string
@@ -7,18 +7,18 @@ export interface Destination {
   createdAt: number
 }
 
-// Ein Protokoll-Eintrag: welche Verbindung wurde wann fuer welche
-// Destination ausgewaehlt. Bildet die Grundlage der Lernlogik.
+// Ein Protokoll-Eintrag: welche Verbindung wurde wann für welche
+// Destination ausgewählt. Bildet die Grundlage der Lernlogik.
 export interface HistoryEntry {
   id: string
   destinationId: string
   chosenAt: number
   /** 0 = Sonntag ... 6 = Samstag (JS Date#getDay) */
   weekday: number
-  /** Minuten seit Mitternacht, zum Zeitpunkt des Oeffnens der Verbindungsliste */
+  /** Minuten seit Mitternacht, zum Zeitpunkt des Öffnens der Verbindungsliste */
   queryMinuteOfDay: number
   departureIso: string
-  /** Minuten seit Mitternacht der gewaehlten Abfahrt */
+  /** Minuten seit Mitternacht der gewählten Abfahrt */
   departureMinuteOfDay: number
 }
 

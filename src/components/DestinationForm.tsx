@@ -24,7 +24,7 @@ export function DestinationForm({ onSubmit, onCancel }: Props) {
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="z. B. Zuhause -> Buero"
+          placeholder="z. B. Zuhause → Büro"
           autoFocus
           required
         />
@@ -35,7 +35,7 @@ export function DestinationForm({ onSubmit, onCancel }: Props) {
       </label>
       <label className="field">
         <span>Nach</span>
-        <input value={to} onChange={(e) => setTo(e.target.value)} placeholder="z. B. Zuerich HB" required />
+        <input value={to} onChange={(e) => setTo(e.target.value)} placeholder="z. B. Zürich HB" required />
       </label>
       <div className="destination-form__actions">
         <button type="button" className="button button--ghost" onClick={onCancel}>
